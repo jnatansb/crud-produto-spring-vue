@@ -17,7 +17,7 @@ public class Produto{
     private Long id;
 
     @NotBlank(message = "Nome é obrigatório")
-    private String name;
+    private String nome;
 
     @Positive(message = "Preço deve ser maior que zero")
     private Double preco;

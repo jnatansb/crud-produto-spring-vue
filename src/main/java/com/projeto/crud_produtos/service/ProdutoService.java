@@ -1,5 +1,6 @@
 package com.projeto.crud_produtos.service;
 
+import com.projeto.crud_produtos.dto.ProdutoDTO;
 import com.projeto.crud_produtos.model.Categoria;
 import com.projeto.crud_produtos.model.Produto;
 import com.projeto.crud_produtos.repository.CategoriaRepository;
@@ -19,7 +20,20 @@ public class ProdutoService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public Produto criar(Produto produto) {
+    public ProdutoDTO criar(ProdutoDTO dto) {
+        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+
+        Produto produto = new Produto();
+        produto.setNome(dto.getNome());
+        produto.setPreco(dto.getPreco());
+        produto.setCategoria(categoria);
+
+        Produto salvo = produtoRepository.save(produto);
+
+        return toDTO(salvo);
+
+        /*
         Long categoriaId = produto.getCategoria().getId();
 
         Categoria categoria = categoriaRepository.findById(categoriaId)
@@ -28,6 +42,16 @@ public class ProdutoService {
         produto.setCategoria(categoria);
 
         return produtoRepository.save(produto);
+         */
+    }
+
+    private ProdutoDTO toDTO(Produto produto) {
+        ProdutoDTO dto = new ProdutoDTO();
+        dto.setId(produto.getId());
+        dto.setNome(produto.getNome());
+        dto.setPreco(produto.getPreco());
+        dto.setCategoriaId(produto.getCategoria().getId());
+        return dto;
     }
 
     public List<Produto> listarTodos() {

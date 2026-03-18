@@ -1,5 +1,6 @@
 package com.projeto.crud_produtos.controller;
 
+import com.projeto.crud_produtos.dto.ProdutoDTO;
 import com.projeto.crud_produtos.model.Produto;
 import com.projeto.crud_produtos.service.ProdutoService;
 import jakarta.validation.Valid;
@@ -19,8 +20,8 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Produto> criar(@Valid @RequestBody Produto produto) {
-        return ResponseEntity.status(201).body(service.criar(produto));
+    public ResponseEntity<ProdutoDTO> criar(@Valid @RequestBody ProdutoDTO dto) {
+        return ResponseEntity.status(201).body(service.criar(dto));
     }
 
     @GetMapping
